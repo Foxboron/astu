@@ -14,9 +14,9 @@ UNDER HEAVY DEVELOPMENT
 
 ### Syntax
 ```
-atsu init server
-atsu backup home server --no-prune
-atsu prune backup 
+astu init server
+astu backup home server --no-prune
+astu prune backup 
 ```
 
 ### Config
