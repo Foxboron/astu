@@ -1,0 +1,29 @@
+backups:
+  home:
+    name: "`hostname`-`date +%Y-%m-%d`"
+    dir: ~/
+    options:
+      - stats
+      - version
+    exclude:
+      - '*/.cache/*'
+      - '*/.local/*'
+      - '*/Downloads/*'
+      - '*/Media/*'
+  usb:
+    dir: ~/Media
+    options:
+      - stats
+      - version
+
+repositories:
+  server:
+    repository: "user@backupserver.fake"
+    env:
+      BORG_PASSPHRASE: "hunter2"
+    prune:
+      prefix: "`hostname`-"
+      keep:
+        daily: 7
+        weekly: 4
+        monthly: 6
