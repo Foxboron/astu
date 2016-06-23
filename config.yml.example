@@ -18,7 +18,7 @@ backups:
 
 repositories:
   server:
-    repository: "user@backupserver.fake"
+    repository: "user@backupserver.fake:~/backup"
     env:
       BORG_PASSPHRASE: "hunter2"
     prune:
