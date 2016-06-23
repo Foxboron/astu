@@ -1,4 +1,4 @@
-ATSU
+ASTU
 ====
 
 The goal of this project is to create a flexible wrapper around borg.  
@@ -20,7 +20,7 @@ atsu prune backup
 ```
 
 ### Config
-```
+```yaml
 backups:
   home:
     name: "`hostname`-`date +%Y-%m-%d`"
@@ -37,7 +37,7 @@ backups:
     dir: ~/Media
     options:
       - stats
-      - v
+      - version
 
 repositories:
   server:
@@ -54,7 +54,7 @@ repositories:
 ```
 
 ### Hooks
-```
+```sh
 $ cat ./hooks/home/pre-backup.sh
 # Backup pacman package listing
 pacman -Q > ~/.package-list
