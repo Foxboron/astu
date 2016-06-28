@@ -1,2 +1,4 @@
 .rope*
 config.yml
+tags
+*__pycache__

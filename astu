@@ -1,22 +1,18 @@
 #!/bin/env python
 
+import yaml
+import sys
+
 from src import astu
 from src import backup
 from src import repository
 
-def main():
-    f = open("./config.yml").read()
-    y = yaml.load(f)
-    repositories = {}
-    for k,v in y["repositories"].items():
-        repositories[k] = repository.Repository(**v)
 
-    backups = {}
-    for k,v in y["backups"].items():
-        backups[k] = backup.Backup(**v)
-    a = astu.Astu(repositories=repositories, backups=backups)
+def main():
+    a = astu.Astu()
     a.parse(sys.argv[1:])
     a.run()
+
 
 if __name__ == '__main__':
     main()

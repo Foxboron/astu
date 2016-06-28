@@ -1,5 +1,6 @@
 class Repository:
-    def __init__(self, name="", repository="", env={}, prune={}):
+    def __init__(self, confname, repository="", env={}, prune={}):
+        self.confname = confname
         self.repository=repository
         self.env = env
         self.prune = prune

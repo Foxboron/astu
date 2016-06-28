@@ -1,5 +1,6 @@
 class Backup:
-    def __init__(self, name="", dir="", env={}, exclude={}, options=[]):
+    def __init__(self, confname, name="", dir="", env={}, exclude={}, options=[], repositories=[]):
+        self.confname = confname
         self.name = name
         self.dir = dir
         self.exclude = exclude
