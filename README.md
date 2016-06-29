@@ -9,7 +9,8 @@ UNDER HEAVY DEVELOPMENT
 # Features
   * Config file written in yaml
   * Hooks for backup preperation and cleanup
-  * Human readable
+  * Human readable config (hopefully)
+  * YAML Anchors support!
 
 
 ### Syntax

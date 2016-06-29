@@ -6,6 +6,8 @@ import os
 import sys
 
 from .config import Config
+from .hooks import Hooks
+from .backup import Backup
 
 def cmd(method):
     """Replace the strings with the respective objects"""
@@ -28,13 +30,44 @@ def cmd(method):
             print("No repository named that")
             sys.exit()
 
-        return method(self, backup, repository)
+        method(self, backup, repository)
     return wrapper
+
+
+def backup_object(l):
+    for i in l:
+        if isinstance(i, Backup):
+            return i
+    return None
+
+
+
+def hook(action, pre=True, post=True):
+    def decorator_func(func):
+        def wrapper_func(*args, **kwargs):
+            hook = None
+            backup = backup_object(args)
+            if backup:
+                hook = Hooks(action, backup)
+
+            if pre and hook:
+                hook.pre_hook()
+
+            retval = func(*args, **kwargs)
+
+            if post and hook:
+                hook.post_hook()
+
+            return retval
+        return wrapper_func
+    return decorator_func
+
+
 
 class Astu:
 
-    def _build_args(self):
 
+    def _build_args(self):
         common = argparse.ArgumentParser(add_help=False, prog=None)
         common.add_argument('-h', '--help', action='help', help='show this help message and exit')
 
@@ -79,7 +112,7 @@ class Astu:
     def parse(self, args):
         """Parses arguments"""
         parser = self._build_args()
-        self.args = parser.parse_args(args)
+        self.args = parser.parse_args(args or ['-h'])
 
     def run(self):
         return self.args.func(self.args)
@@ -98,14 +131,18 @@ class Astu:
             for k,v in env.items():
                 print("{0} {1}".format(k,v))
 
+
     def repo_path(repo, name, prefix):
         pass
+
 
     @cmd
     def do_init(self, repository):
         pass
 
+
     @cmd
+    @hook("backup")
     def do_backup(self, backup, repository):
         """Does the backup"""
         args = {}
@@ -118,6 +155,7 @@ class Astu:
         cmd = "{env} {cmd} {flags} {repo} {path}".format(**args)
         return self._run(cmd, env={**repository.env, **backup.env})
 
+
     @cmd
     def do_repositories(self, backup, repositories):
         print("Backup:")
@@ -129,9 +167,12 @@ class Astu:
         for i in repositories:
             print("* {0}".format(i.confname))
             print("\tRepository: {0}".format(i.repository))
+
+
     @cmd
     def do_list(self, backup, repositories):
         pass
+
 
     @cmd
     def do_prune(self, backup, repository):

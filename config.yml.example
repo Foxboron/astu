@@ -1,23 +1,5 @@
-backups:
-  home:
-    name: "`hostname`-`date +%Y-%m-%d`"
-    dir: ~/
-    options:
-      - stats
-      - version
-    exclude:
-      - '*/.cache/*'
-      - '*/.local/*'
-      - '*/Downloads/*'
-      - '*/Media/*'
-  usb:
-    dir: ~/Media
-    options:
-      - stats
-      - version
-
 repositories:
-  server:
+  server: &server
     repository: "user@backupserver.fake:~/backup"
     env:
       BORG_PASSPHRASE: "hunter2"
@@ -27,3 +9,29 @@ repositories:
         daily: 7
         weekly: 4
         monthly: 6
+
+backups:
+  home:
+    name: "`hostname`-`date +%Y-%m-%d`"
+    dir: ~/
+    options:
+      - stats
+      - version
+    repositories: 
+      server: 
+        <<: *server
+        repository: "user@backupserver.fake:~/backup/Media"
+    exclude:
+      - '*/.cache/*'
+      - '*/.local/*'
+      - '*/Downloads/user@backupserver.fake:~/backup/Media*'
+      - '*/Media/*'
+  usb:
+    dir: ~/Media
+    repositories: 
+      server: 
+        <<: *server
+        repository: "user@backupserver.fake:~/backup/Media"
+    options:
+      - stats
+      - version
