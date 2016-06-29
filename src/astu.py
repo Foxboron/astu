@@ -132,8 +132,8 @@ class Astu:
                 print("{0} {1}".format(k,v))
 
 
-    def repo_path(repo, name, prefix):
-        pass
+    def repo_path(self, repo, name):
+        return "{0}::{1}".format(repo, name)
 
 
     @cmd
@@ -149,8 +149,8 @@ class Astu:
         args["env"] = repository.get_env()
         args["cmd"] = "borg create"
         args["flags"] = backup.get_all_flags()
-        # repo = self.repo_path(repository.repository, backup.name, backup.prefix)
-        args["repo"] = ""
+        repo = self.repo_path(repository.repository, backup.name)
+        args["repo"] = repo
         args["path"] = backup.dir
         cmd = "{env} {cmd} {flags} {repo} {path}".format(**args)
         return self._run(cmd, env={**repository.env, **backup.env})
