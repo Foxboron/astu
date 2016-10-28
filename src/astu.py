@@ -66,7 +66,6 @@ def hook(action, pre=True, post=True):
 
 class Astu:
 
-
     def _build_args(self):
         common = argparse.ArgumentParser(add_help=False, prog=None)
         common.add_argument('-h', '--help', action='help', help='show this help message and exit')
@@ -132,7 +131,7 @@ class Astu:
                 print("{0} {1}".format(k,v))
 
 
-    def repo_path(self, repo, name):
+    def _repo_path(self, repo, name):
         return "{0}::{1}".format(repo, name)
 
 
@@ -149,7 +148,7 @@ class Astu:
         args["env"] = repository.get_env()
         args["cmd"] = "borg create"
         args["flags"] = backup.get_all_flags()
-        repo = self.repo_path(repository.repository, backup.name)
+        repo = self._repo_path(repository.repository, backup.name)
         args["repo"] = repo
         args["path"] = backup.dir
         cmd = "{env} {cmd} {flags} {repo} {path}".format(**args)
